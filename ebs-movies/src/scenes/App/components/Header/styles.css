@@ -1,0 +1,12 @@
+.ebs-header {
+  background-color: #F1F1F1;
+}
+
+.ebs-header__user-info {
+  padding: 10px;
+  text-align: right;
+}
+
+.ebs-header__user-info button {
+  padding: 0;
+}

@@ -1,0 +1,22 @@
+.ebs-app {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
+  grid-template-rows: 100px 1fr auto;
+  height: 100vh;
+}
+
+.ebs-header {
+  grid-area: header;
+}
+
+.ebs-main {
+  grid-area: content;
+  padding: 20px;
+}
+
+.ebs-footer {
+  grid-area: footer;
+}
