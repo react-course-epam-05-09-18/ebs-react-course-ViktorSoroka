@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { Search } from '../../components';
-import { CourseCard } from './components';
+import { extractQueryString } from '../../services';
 import { fetchCourses } from './store/actions';
-import { getCourses } from './store/reducers/courses';
+import { getCourses } from './store/reducers';
+import { CourseCard } from './components';
 
 class _Courses extends Component {
   static propTypes = {
@@ -15,20 +16,46 @@ class _Courses extends Component {
     courses: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        duration: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
-        createDate: PropTypes.string.isRequired,
       })
     ).isRequired,
+    history: PropTypes.shape({
+      location: PropTypes.shape({
+        state: PropTypes.shape({
+          from: PropTypes.shape({}),
+        }),
+      }).isRequired,
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
-  componentDidMount() {
-    this.props.fetchCourses();
+  constructor(props) {
+    super(props);
+
+    this.initialSearchValue = decodeURIComponent(
+      extractQueryString(props.location.search).search || ''
+    );
   }
 
-  onSubmit = () => {
-    console.log('submit');
+  componentDidMount() {
+    const { search } = this.props.location;
+
+    this.props.fetchCourses(search);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { search: prevSearch } = prevProps.location;
+    const { search } = this.props.location;
+
+    if (prevSearch !== search) {
+      this.props.fetchCourses(search);
+    }
+  }
+
+  onSubmit = search => {
+    this.props.history.push({
+      pathname: '/courses',
+      search: `?search=${search}`,
+    });
   };
 
   renderCourses() {
@@ -48,7 +75,11 @@ class _Courses extends Component {
       <div>
         <div className="row">
           <div className="col-sm-6">
-            <Search onSubmit={this.onSubmit} placeholder="By name or date" />
+            <Search
+              defaultValue={this.initialSearchValue}
+              onSubmit={this.onSubmit}
+              placeholder="By name or date"
+            />
           </div>
           <div className="col-sm-2 col-sm-offset-4 text-right">
             <Button bsStyle="primary">

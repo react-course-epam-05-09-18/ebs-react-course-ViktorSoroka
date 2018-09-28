@@ -107,9 +107,9 @@ export class Course extends Component {
         <FormGroup>
           <Row>
             <Col smOffset={2} sm={10}>
-              <Button bsStyle="primary" type="submit">
+              <Button bsStyle="primary" className="m-r-sm" type="submit">
                 Save
-              </Button>{' '}
+              </Button>
               <Button bsStyle="danger">
                 <Link to={'/courses'}>Cancel</Link>
               </Button>

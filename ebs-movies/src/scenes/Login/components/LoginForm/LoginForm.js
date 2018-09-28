@@ -26,6 +26,7 @@ export class LoginForm extends Component {
           from: PropTypes.shape({}),
         }),
       }).isRequired,
+      push: PropTypes.func.isRequired,
     }).isRequired,
   };
 

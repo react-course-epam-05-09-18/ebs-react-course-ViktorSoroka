@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import { loginUser, getAuth } from './store';
 import { LoginForm } from './components';
 
-const mapStateToProps = state => {
-  return {
-    auth: getAuth(state),
-  };
-};
+const mapStateToProps = state => ({
+  auth: getAuth(state),
+});
 
 const mapDispatchToProps = {
   onSubmit: loginUser,

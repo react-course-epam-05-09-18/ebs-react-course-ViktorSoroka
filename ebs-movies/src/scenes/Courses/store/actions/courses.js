@@ -4,10 +4,10 @@ export const FETCH_IN_PROGRESS = '[Courses] Fetching';
 export const FETCH_FAIL = '[Courses] Fetching Fail';
 export const FETCH_SUCCESS = '[Courses] Fetching Success';
 
-export const fetchCourses = () => dispatch => {
+export const fetchCourses = search => dispatch => {
   dispatch(fetchingInProgress());
 
-  return fetch('/courses', {
+  return fetch(`/courses${search}`, {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
     },

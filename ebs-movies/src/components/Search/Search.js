@@ -6,15 +6,21 @@ export class Search extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    defaultValue: PropTypes.string,
   };
 
   static defaultProps = {
     placeholder: '',
+    defaultValue: '',
   };
 
-  state = {
-    value: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: props.defaultValue,
+    };
+  }
 
   handleChange = e => {
     this.setState({ value: e.target.value });
@@ -23,21 +29,22 @@ export class Search extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onSubmit(this.state.value);
+    this.props.onSubmit(this.state.value.trim());
   };
 
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, defaultValue } = this.props;
 
     return (
       <Form inline onSubmit={this.handleSubmit}>
-        <FormGroup controlId="formInlineName">
+        <FormGroup controlId="formInlineName" className="m-r-sm">
           <FormControl
+            defaultValue={defaultValue}
             type="text"
             placeholder={placeholder}
             onChange={this.handleChange}
           />
-        </FormGroup>{' '}
+        </FormGroup>
         <Button type="submit">Search</Button>
       </Form>
     );
