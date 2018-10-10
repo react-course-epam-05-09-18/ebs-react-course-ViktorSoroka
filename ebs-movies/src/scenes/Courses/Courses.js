@@ -6,11 +6,10 @@ import { connect } from 'react-redux';
 
 import { Search } from '../../components';
 import { extractQueryString } from '../../services';
-import { fetchCourses } from './store/actions';
-import { getCourses } from './store/reducers';
+import { getCourses, fetchCourses, searchCourses, deleteCourse } from './store';
 import { CourseCard } from './components';
 
-class _Courses extends Component {
+class CoursesComponent extends Component {
   static propTypes = {
     fetchCourses: PropTypes.func.isRequired,
     courses: PropTypes.arrayOf(
@@ -18,14 +17,6 @@ class _Courses extends Component {
         id: PropTypes.string.isRequired,
       })
     ).isRequired,
-    history: PropTypes.shape({
-      location: PropTypes.shape({
-        state: PropTypes.shape({
-          from: PropTypes.shape({}),
-        }),
-      }).isRequired,
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   constructor(props) {
@@ -52,19 +43,20 @@ class _Courses extends Component {
   }
 
   onSubmit = search => {
-    this.props.history.push({
-      pathname: '/courses',
-      search: `?search=${search}`,
-    });
+    this.props.searchCourses(search);
   };
 
   renderCourses() {
-    const { courses } = this.props;
+    const { courses, deleteCourse } = this.props;
 
     return (
       <div>
         {courses.map(course => (
-          <CourseCard key={course.id} course={course} />
+          <CourseCard
+            key={course.id}
+            course={course}
+            deleteCourse={deleteCourse}
+          />
         ))}
       </div>
     );
@@ -83,7 +75,7 @@ class _Courses extends Component {
           </div>
           <div className="col-sm-2 col-sm-offset-4 text-right">
             <Button bsStyle="primary">
-              <Link to={'/courses/new'}>Add course</Link>
+              <Link to="/courses/new">Add course</Link>
             </Button>
           </div>
         </div>
@@ -99,9 +91,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchCourses,
+  searchCourses,
+  deleteCourse,
 };
 
 export const Courses = connect(
   mapStateToProps,
   mapDispatchToProps
-)(_Courses);
+)(CoursesComponent);

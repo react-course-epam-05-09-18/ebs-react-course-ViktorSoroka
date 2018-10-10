@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { Router, Redirect, Route, Switch } from 'react-router-dom';
 
-import { Header, Footer } from './components';
-import { Login, Courses, Course } from '../';
-import { getUser, logoutUser } from '../Login';
+import history from '../../services/history';
 import { PrivateRoute } from '../../components';
+import { getUser, logoutUser } from '../Login';
+import { Login, Courses, Course } from '../';
+import { Header, Footer } from './components';
 
 import './styles.css';
 
-export class _App extends Component {
+export class AppComponent extends Component {
   render() {
     const { user, logoutUser } = this.props;
 
     return (
-      <Router>
+      <Router history={history}>
         <div className="ebs-app">
           <Header user={user} logout={logoutUser} />
           <main className="ebs-main">
@@ -51,4 +47,4 @@ const mapDispatchToProps = {
 export const App = connect(
   mapStateToProps,
   mapDispatchToProps
-)(_App);
+)(AppComponent);

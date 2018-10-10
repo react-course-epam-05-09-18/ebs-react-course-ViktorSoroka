@@ -1,6 +1,9 @@
-import { createSelector } from 'reselect';
-
-import { FETCH_FAIL, FETCH_IN_PROGRESS, FETCH_SUCCESS } from '../actions';
+import {
+  FETCH_FAIL,
+  FETCH_IN_PROGRESS,
+  FETCH_SUCCESS,
+  DELETE_SUCCESS,
+} from '../actions';
 
 const initialState = {
   entries: {},
@@ -34,14 +37,18 @@ export function reducer(state = initialState, action) {
         loading: false,
       };
     }
+
+    case DELETE_SUCCESS: {
+      const { [action.payload]: entryToDelete, ...rest } = state.entries;
+
+      return {
+        ...state,
+        entries: rest,
+        error: '',
+        loading: false,
+      };
+    }
   }
 
   return state;
 }
-
-export const getCoursesEntries = ({ courses }) => courses.entries;
-export const getCourses = createSelector(getCoursesEntries, entities => {
-  return Object.keys(entities).map(id => entities[id]);
-});
-export const getCoursesLoading = ({ courses }) => courses.loading;
-export const getCoursesError = ({ courses }) => courses.error;

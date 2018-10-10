@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router({});
 
-const courses = [
+let courses = [
   {
     id: '5ba7d98f53c989d6ee8dbb5b',
     name: 'name',
@@ -25,6 +25,12 @@ const findCoursesByName = value => {
   });
 };
 
+const deleteCoursesById = idToRemove => {
+  courses = courses.filter(({ id }) => {
+    return idToRemove !== id;
+  });
+};
+
 const findCoursesByDate = value => {
   const [month, day, year] = value.split('/');
   const date = new Date(year, month - 1, day);
@@ -32,7 +38,6 @@ const findCoursesByDate = value => {
   return courses.filter(({ createDate }) => {
     const dateCreated = new Date(createDate);
 
-    console.log(date.toLocaleDateString(), dateCreated.toLocaleDateString());
     return date.toLocaleDateString() === dateCreated.toLocaleDateString();
   });
 };
@@ -51,6 +56,16 @@ router.get('/', (req, res) => {
   }
 
   return res.json(findCoursesByName(search));
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  setTimeout(() => {
+    deleteCoursesById(id);
+
+    res.end();
+  }, 1000);
 });
 
 module.exports = router;

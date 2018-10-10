@@ -2,14 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button, Panel } from 'react-bootstrap';
+import { compose, withHandlers, withProps, withState } from 'recompose';
 
-import { FormatDuration, FormatDate } from '../../../../components';
+import {
+  FormatDuration,
+  FormatDate,
+  ConfirmModal,
+} from '../../../../components';
 
 import './styles.css';
 
-export const CourseCard = props => {
+export const CourseCardComponent = props => {
   const {
     course: { id, name, description, duration, createDate },
+    onRemove,
+    modalRef,
+    loading,
   } = props;
 
   return (
@@ -37,14 +45,17 @@ export const CourseCard = props => {
           </Button>
         </div>
         <div className="m-t-sm">
-          <Button bsStyle="danger">Delete</Button>
+          <Button bsStyle="danger" disabled={loading} onClick={onRemove}>
+            Delete
+          </Button>
         </div>
       </div>
+      <ConfirmModal ref={modalRef} />
     </Panel>
   );
 };
 
-CourseCard.propTypes = {
+CourseCardComponent.propTypes = {
   course: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -52,4 +63,42 @@ CourseCard.propTypes = {
     description: PropTypes.string.isRequired,
     createDate: PropTypes.string.isRequired,
   }),
+  onRemove: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  modalRef: PropTypes.shape({ current: PropTypes.shape({}) }).isRequired,
 };
+
+export const CourseCard = compose(
+  withProps(() => ({
+    modalRef: React.createRef(),
+  })),
+  withState('loading', 'setLoading', false),
+  withHandlers({
+    onRemove: props => () => {
+      const {
+        deleteCourse,
+        modalRef,
+        loading,
+        setLoading,
+        course: { id },
+      } = props;
+
+      modalRef.current.show({
+        modalTitle: 'Are you sure want to remove the course?',
+        onConfirm: () => {
+          if (loading) {
+            return;
+          }
+
+          setLoading(true);
+
+          deleteCourse(id).then(deleted => {
+            if (!deleted) {
+              setLoading(false);
+            }
+          });
+        },
+      });
+    },
+  })
+)(CourseCardComponent);

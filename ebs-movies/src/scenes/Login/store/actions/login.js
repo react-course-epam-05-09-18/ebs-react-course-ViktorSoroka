@@ -1,3 +1,5 @@
+import history from '../../../../services/history';
+
 export const LOGIN_IN_PROGRESS = '[Login] Login is in progress';
 export const LOGIN_FAIL = '[Login] Login Fail';
 export const LOGIN_SUCCESS = '[Login] Login Success';
@@ -29,6 +31,10 @@ export const loginUser = payload => dispatch => {
       dispatch(loginUserSuccess(user));
       localStorage.setItem('user', JSON.stringify(user));
 
+      const { state: locationState = {} } = history.location;
+
+      history.push(locationState.from || '/');
+
       return true;
     })
     .catch(e => {
@@ -36,6 +42,14 @@ export const loginUser = payload => dispatch => {
 
       return false;
     });
+};
+
+export const handleAlreadyAuth = user => () => {
+  if (user) {
+    const { state: locationState = {} } = history.location;
+
+    history.push(locationState.from || '/');
+  }
 };
 
 export const logoutUser = () => dispatch => {
