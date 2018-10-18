@@ -5,7 +5,7 @@
  */
 
 const app = require('../app');
-const debug = require('debug')('ebs-movies:server');
+const debug = require('debug')('ebs-courses:server');
 const http = require('http');
 
 /**
