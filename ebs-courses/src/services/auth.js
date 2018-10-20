@@ -1,7 +1,5 @@
-export const getUserFromStorage = () => {
-  return JSON.parse(localStorage.getItem('user'));
-};
+import { getItem } from './storage';
 
 export const isAuthenticated = () => {
-  return getUserFromStorage() !== null;
+  return getItem('user') !== null;
 };

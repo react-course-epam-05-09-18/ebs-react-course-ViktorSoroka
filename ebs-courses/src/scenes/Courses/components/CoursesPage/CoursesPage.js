@@ -10,7 +10,7 @@ export function CoursesPage(props) {
   const { initialSearchValue, courses, deleteCourse, onSubmit } = props;
 
   return (
-    <div>
+    <React.Fragment>
       <div className="row">
         <div className="col-sm-6">
           <Search
@@ -28,7 +28,7 @@ export function CoursesPage(props) {
       <div className="m-t-md">
         <CoursesList courses={courses} deleteCourse={deleteCourse} />
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

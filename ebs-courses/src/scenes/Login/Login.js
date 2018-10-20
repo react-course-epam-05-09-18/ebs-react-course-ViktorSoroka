@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loginUser, handleAlreadyAuth, getAuth } from './store';
+import { loginUser, handleLoggedIn, getAuth } from './store';
 import { LoginForm } from './components';
 
 const mapStateToProps = state => ({
@@ -19,7 +19,7 @@ const mergeProps = (stateProps, { dispatch, ...otherDispatchProps }, props) => {
     ...otherDispatchProps,
     ...props,
     onEnterPage: () => {
-      dispatch(handleAlreadyAuth(stateProps.auth.user));
+      dispatch(handleLoggedIn(stateProps.auth.user));
     },
   };
 };

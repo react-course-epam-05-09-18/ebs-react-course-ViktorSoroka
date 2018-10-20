@@ -4,51 +4,55 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
 } from '../actions';
+import * as storage from '../../../../services/storage';
 
-import { getUserFromStorage } from '../../../../services';
+export const reducerCreator = ({ storage }) => {
+  const user = storage.getItem('user');
 
-const user = getUserFromStorage();
+  const initialState = {
+    user,
+    loading: false,
+    error: '',
+  };
 
-const initialState = {
-  user: user,
-  loading: false,
-  error: '',
+  return (state = initialState, action) => {
+    switch (action.type) {
+      case LOGIN_IN_PROGRESS: {
+        return {
+          ...state,
+          loading: true,
+          error: '',
+        };
+      }
+
+      case LOGIN_FAIL: {
+        return {
+          ...state,
+          user: null,
+          loading: false,
+          error: action.payload,
+        };
+      }
+
+      case LOGIN_SUCCESS: {
+        return {
+          ...state,
+          user: action.payload,
+          error: '',
+          loading: false,
+        };
+      }
+
+      case LOGOUT: {
+        return {
+          ...initialState,
+          user: null,
+        };
+      }
+    }
+
+    return state;
+  };
 };
 
-export function reducer(state = initialState, action) {
-  switch (action.type) {
-    case LOGIN_IN_PROGRESS: {
-      return {
-        ...state,
-        loading: true,
-        error: '',
-      };
-    }
-
-    case LOGIN_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    }
-
-    case LOGIN_SUCCESS: {
-      return {
-        ...state,
-        user: action.payload,
-        error: '',
-        loading: false,
-      };
-    }
-
-    case LOGOUT: {
-      return {
-        ...initialState,
-        user: null,
-      };
-    }
-  }
-
-  return state;
-}
+export const reducer = reducerCreator({ storage });

@@ -1,13 +1,8 @@
-import { goTo } from '../../../../actions';
+import history from '../../../../services/history';
 
-export const searchCourses = payload => dispatch => {
-  dispatch(
-    goTo({
-      method: 'push',
-      args: {
-        pathname: '/courses',
-        search: `?search=${payload}`,
-      },
-    })
-  );
+export const searchCourses = payload => () => {
+  history.push({
+    pathname: '/courses',
+    search: `?search=${payload}`,
+  });
 };

@@ -25,7 +25,7 @@ export function CourseComponent(props) {
   } = props;
 
   return (
-    <div>
+    <React.Fragment>
       <CourseForm
         error={courseError}
         onSubmit={onSubmit}
@@ -34,7 +34,7 @@ export function CourseComponent(props) {
         handleSubmitValidationErrors={handleSubmitValidationErrors}
       />
       <AlertModal ref={modalRef} />
-    </div>
+    </React.Fragment>
   );
 }
 
