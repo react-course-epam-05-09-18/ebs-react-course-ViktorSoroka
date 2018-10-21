@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
   }
 
   return res.json({
-    username: 'gohn_doe',
+    username: 'john_doe',
   });
 });
 

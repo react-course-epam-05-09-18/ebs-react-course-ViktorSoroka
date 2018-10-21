@@ -1,7 +1,7 @@
 import history from '../../../../services/history';
-import * as loginService from '../../services/loginService';
 import * as storage from '../../../../services/storage';
-import { loginInProgress, loginUserFail, loginUserSuccess } from './login';
+import * as loginService from '../../services/loginService';
+import { loginUserInProgress, loginUserFail, loginUserSuccess } from './login';
 
 export const loginUserCreator = ({
   loginUserFail,
@@ -29,7 +29,7 @@ export const loginUserCreator = ({
 export const loginUser = loginUserCreator({
   loginUserFail,
   loginUserSuccess,
-  loginInProgress,
+  loginInProgress: loginUserInProgress,
   api: loginService,
   storage,
   history,

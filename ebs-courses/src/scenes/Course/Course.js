@@ -4,7 +4,6 @@ import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 
 import { withSpinnerWhileLoading } from '../../hoc';
 import { AlertModal } from '../../components';
-
 import { fetchCourses, getCoursesLoaded, getCoursesLoading } from '../Courses';
 import {
   getCourseError,

@@ -1,10 +1,10 @@
-import * as selectors from '../selectors/login';
+import * as selectors from './login';
 
 const state = {
   auth: {
     user: {},
     loading: false,
-    error: 'error'
+    error: 'error',
   },
 };
 

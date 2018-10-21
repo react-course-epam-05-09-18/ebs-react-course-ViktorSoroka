@@ -1,28 +1,22 @@
 import history from '../../../../services/history';
+import * as courseService from '../../services/courseService';
+import {
+  updateCourseFail,
+  updateCourseSuccess,
+  updateCourseInProgress,
+} from './course';
 
-export const UPDATE_IN_PROGRESS = '[Course] Updating';
-export const UPDATE_FAIL = '[Course] Update Fail';
-export const UPDATE_SUCCESS = '[Course] Update Success';
+export const updateCourseCreator = ({
+  updateCourseInProgress,
+  updateCourseSuccess,
+  updateCourseFail,
+  history,
+  api,
+}) => payload => dispatch => {
+  dispatch(updateCourseInProgress());
 
-export const updateCourse = payload => dispatch => {
-  dispatch(updatingCourseInProgress());
-
-  return fetch(`/courses`, {
-    method: 'put',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then(response => {
-      if (!response.ok) {
-        const msg = 'Network issues. Try later.';
-
-        throw Error(msg);
-      }
-
-      return response;
-    })
+  api
+    .updateCourse(payload)
     .then(() => {
       dispatch(updateCourseSuccess());
 
@@ -31,21 +25,10 @@ export const updateCourse = payload => dispatch => {
     .catch(e => dispatch(updateCourseFail(e.message)));
 };
 
-export const updatingCourseInProgress = () => {
-  return {
-    type: UPDATE_IN_PROGRESS,
-  };
-};
-
-export const updateCourseSuccess = () => {
-  return {
-    type: UPDATE_SUCCESS,
-  };
-};
-
-export const updateCourseFail = payload => {
-  return {
-    type: UPDATE_FAIL,
-    payload,
-  };
-};
+export const updateCourse = updateCourseCreator({
+  api: courseService,
+  history,
+  updateCourseFail,
+  updateCourseSuccess,
+  updateCourseInProgress,
+});

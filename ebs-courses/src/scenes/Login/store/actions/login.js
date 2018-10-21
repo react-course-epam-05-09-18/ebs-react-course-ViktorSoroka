@@ -12,7 +12,7 @@ export const logoutUserCreator = ({ storage }) => () => dispatch => {
 
 export const logoutUser = logoutUserCreator({ storage });
 
-export const loginInProgress = () => {
+export const loginUserInProgress = () => {
   return {
     type: LOGIN_IN_PROGRESS,
   };

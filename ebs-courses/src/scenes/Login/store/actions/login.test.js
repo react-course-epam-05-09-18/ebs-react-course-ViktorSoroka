@@ -8,7 +8,7 @@ describe('login actions', () => {
       type: actions.LOGIN_IN_PROGRESS,
     };
 
-    expect(actions.loginInProgress()).toEqual(expectedAction);
+    expect(actions.loginUserInProgress()).toEqual(expectedAction);
   });
 
   it('should create an action for succeeded login', () => {

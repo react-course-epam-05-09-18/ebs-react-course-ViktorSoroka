@@ -5,13 +5,10 @@ import { loginUserCreator } from './loginUser';
 describe('loginUser', () => {
   let loginUser;
 
-  const loginFormPayload = {
-    login: 'login',
-    password: 'password',
-  };
+  const loginUserPayload = 'loginUserPayload';
 
   const mockUser = {
-    username: 'gohn_doe',
+    username: 'john_doe',
   };
 
   const api = {
@@ -40,7 +37,7 @@ describe('loginUser', () => {
       loginInProgress,
       storage,
       history,
-    })(loginFormPayload);
+    })(loginUserPayload);
   });
 
   afterEach(() => {
@@ -49,14 +46,14 @@ describe('loginUser', () => {
     dispatchMock.resetHistory();
   });
 
-  describe('success response', () => {
+  describe('when response is succeeded', () => {
     beforeEach(async () => {
       api.loginUser.returns(Promise.resolve(mockUser));
 
       await loginUser(dispatchMock);
     });
 
-    it('should call loginInProgress', () => {
+    it('should call loginUserInProgress', () => {
       expect(loginInProgress.calledOnce).toBe(true);
     });
 
@@ -65,7 +62,7 @@ describe('loginUser', () => {
     });
 
     it('should call loginUser with payload', () => {
-      expect(api.loginUser.calledWith(loginFormPayload)).toBe(true);
+      expect(api.loginUser.calledWith(loginUserPayload)).toBe(true);
     });
 
     it('should call loginUserSuccess on success response', () => {
@@ -76,15 +73,15 @@ describe('loginUser', () => {
       expect(storage.setItem.calledWith('user', mockUser)).toBe(true);
     });
 
-    it('should call push', () => {
+    it('should redirect', () => {
       expect(history.push.calledOnce).toBe(true);
     });
 
-    it('should call push with default route', () => {
+    it('should redirect to the home page', () => {
       expect(history.push.calledWith('/')).toBe(true);
     });
 
-    it('should call push with predefined route', async () => {
+    it('should redirect to the previous history location', async () => {
       const history = {
         location: { state: { from: 'fromLocation' } },
         push: sinon.stub(),
@@ -97,7 +94,7 @@ describe('loginUser', () => {
         loginInProgress,
         storage,
         history,
-      })(loginFormPayload);
+      })(loginUserPayload);
 
       api.loginUser.returns(Promise.resolve(mockUser));
 
@@ -111,7 +108,7 @@ describe('loginUser', () => {
     });
   });
 
-  describe('error response', () => {
+  describe('when response is errored', () => {
     beforeEach(async () => {
       api.loginUser.returns(Promise.reject(new Error('Error')));
 

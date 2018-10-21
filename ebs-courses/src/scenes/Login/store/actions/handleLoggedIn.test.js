@@ -6,7 +6,7 @@ describe('handleLoggedIn', () => {
   let handleLoggedIn;
 
   const mockUser = {
-    username: 'gohn_doe',
+    username: 'john_doe',
   };
 
   const history = {
@@ -14,7 +14,7 @@ describe('handleLoggedIn', () => {
     push: sinon.stub(),
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     handleLoggedIn = handleLoggedInCreator({
       history,
     });
@@ -24,21 +24,21 @@ describe('handleLoggedIn', () => {
     history.push.resetHistory();
   });
 
-  describe('user is logged in', () => {
-    beforeEach(async () => {
-      await handleLoggedIn(mockUser)();
+  describe('when user is logged in', () => {
+    beforeEach(() => {
+      handleLoggedIn(mockUser)();
     });
 
-    it('should call push', () => {
+    it('should redirect once', () => {
       expect(history.push.calledOnce).toBe(true);
     });
 
-    it('should call push with default location', () => {
+    it('should redirect to the home page', () => {
       expect(history.push.calledWith('/')).toBe(true);
     });
   });
 
-  describe('user is logged in with previous history state', () => {
+  describe('when user is logged in with previous history state', () => {
     const history = {
       location: { state: { from: 'fromLocation' } },
       push: sinon.stub(),
@@ -56,17 +56,17 @@ describe('handleLoggedIn', () => {
       history.push.resetHistory();
     });
 
-    it('should call push with predefined location', () => {
+    it('should redirect to the previous history state', () => {
       expect(history.push.calledWith('fromLocation')).toBe(true);
     });
   });
 
-  describe('user is not logged in', () => {
-    beforeEach(async () => {
-      await handleLoggedIn()();
+  describe('when user is not logged in', () => {
+    beforeEach(() => {
+      handleLoggedIn()();
     });
 
-    it('should not call push', () => {
+    it('should not redirect', () => {
       expect(history.push.notCalled).toBe(true);
     });
   });

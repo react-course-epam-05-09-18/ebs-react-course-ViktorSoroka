@@ -2,7 +2,7 @@ import sinon from 'sinon';
 
 import { reducerCreator } from './login';
 import {
-  loginInProgress,
+  loginUserInProgress,
   loginUserFail,
   loginUserSuccess,
   LOGOUT,
@@ -15,7 +15,7 @@ const state = {
 };
 
 const mockUser = {
-  username: 'gohn_doe',
+  username: 'john_doe',
 };
 
 describe('login reducer', () => {
@@ -25,7 +25,7 @@ describe('login reducer', () => {
     getItem: sinon.stub(),
   };
 
-  describe('user is not logged in', () => {
+  describe('when user is not logged in', () => {
     beforeEach(() => {
       storage.getItem.withArgs('user').returns(null);
 
@@ -45,14 +45,14 @@ describe('login reducer', () => {
     });
 
     it('should return LOGIN_IN_PROGRESS state', () => {
-      expect(reducer(state, loginInProgress())).toEqual({
+      expect(reducer(state, loginUserInProgress())).toEqual({
         ...state,
         loading: true,
         error: '',
       });
     });
 
-    it('should return LOGIN_IN_PROGRESS state', () => {
+    it('should return LOGIN_FAIL state', () => {
       expect(reducer(state, loginUserFail('Error message'))).toEqual({
         ...state,
         user: null,
@@ -79,7 +79,7 @@ describe('login reducer', () => {
     });
   });
 
-  describe('user is logged in', () => {
+  describe('when user is logged in', () => {
     beforeEach(() => {
       storage.getItem.withArgs('user').returns(mockUser);
 

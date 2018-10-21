@@ -1,33 +1,11 @@
 import { normalise } from '../../../../services';
+import * as coursesService from '../../services/coursesService';
 
 export const FETCH_IN_PROGRESS = '[Courses] Fetching';
-export const FETCH_FAIL = '[Courses] Fetching Fail';
 export const FETCH_SUCCESS = '[Courses] Fetching Success';
+export const FETCH_FAIL = '[Courses] Fetching Fail';
 
-export const fetchCourses = (search = '') => dispatch => {
-  dispatch(fetchingInProgress());
-
-  return fetch(`/courses${search}`, {
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-  })
-    .then(response => {
-      if (!response.ok) {
-        const msg = 'Network issues. Try later.';
-
-        throw Error(msg);
-      }
-
-      return response.json();
-    })
-    .then(courses => {
-      dispatch(fetchCoursesSuccess(normalise(courses)));
-    })
-    .catch(e => dispatch(fetchCoursesFail(e.message)));
-};
-
-export const fetchingInProgress = () => {
+export const fetchCoursesInProgress = () => {
   return {
     type: FETCH_IN_PROGRESS,
   };
@@ -46,3 +24,24 @@ export const fetchCoursesFail = payload => {
     payload,
   };
 };
+
+export const fetchCoursesCreator = ({
+  fetchCoursesInProgress,
+  fetchCoursesSuccess,
+  fetchCoursesFail,
+  api,
+}) => (search = '') => dispatch => {
+  dispatch(fetchCoursesInProgress());
+
+  return api
+    .fetchCourses(search)
+    .then(courses => dispatch(fetchCoursesSuccess(normalise(courses))))
+    .catch(e => dispatch(fetchCoursesFail(e.message)));
+};
+
+export const fetchCourses = fetchCoursesCreator({
+  fetchCoursesInProgress,
+  fetchCoursesFail,
+  fetchCoursesSuccess,
+  api: coursesService,
+});

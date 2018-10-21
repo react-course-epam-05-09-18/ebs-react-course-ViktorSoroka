@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 
 import { extractQueryString } from '../../services';
-import { CoursesPage } from './components';
 import { getCourses, fetchCourses, searchCourses, deleteCourse } from './store';
+import { CoursesPage } from './components';
 
 const withCourses = compose(
   withProps(props => {
