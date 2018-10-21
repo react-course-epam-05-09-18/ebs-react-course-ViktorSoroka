@@ -44,34 +44,31 @@ describe('login reducer', () => {
       });
     });
 
-    it('should return LOGIN_IN_PROGRESS state', () => {
-      expect(reducer(state, loginUserInProgress())).toEqual({
-        ...state,
+    it('should return state for login in progress', () => {
+      expect(reducer(state, loginUserInProgress())).toMatchObject({
         loading: true,
         error: '',
       });
     });
 
-    it('should return LOGIN_FAIL state', () => {
-      expect(reducer(state, loginUserFail('Error message'))).toEqual({
-        ...state,
+    it('should return state for login failure', () => {
+      expect(reducer(state, loginUserFail('Error message'))).toMatchObject({
         user: null,
         loading: false,
         error: 'Error message',
       });
     });
 
-    it('should return LOGIN_SUCCESS state', () => {
-      expect(reducer(undefined, loginUserSuccess(mockUser))).toEqual({
-        ...state,
+    it('should return state for login success', () => {
+      expect(reducer(state, loginUserSuccess(mockUser))).toMatchObject({
         user: mockUser,
         loading: false,
         error: '',
       });
     });
 
-    it('should return LOGOUT state', () => {
-      expect(reducer(state, { type: LOGOUT })).toEqual({
+    it('should return state for logout', () => {
+      expect(reducer(state, { type: LOGOUT })).toMatchObject({
         user: null,
         loading: false,
         error: '',

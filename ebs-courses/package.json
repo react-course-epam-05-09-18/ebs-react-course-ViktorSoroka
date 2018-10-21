@@ -25,6 +25,8 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "prettier": "^1.14.3",
     "sinon": "^7.0.0"
   },
@@ -33,5 +35,12 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/**/index.js"
+    ]
+  }
 }

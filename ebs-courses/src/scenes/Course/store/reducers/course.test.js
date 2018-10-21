@@ -18,25 +18,22 @@ describe('course reducer', () => {
     });
   });
 
-  it('should return UPDATE_IN_PROGRESS state', () => {
-    expect(reducer(state, updateCourseInProgress())).toEqual({
-      ...state,
+  it('should return state for update course in progress', () => {
+    expect(reducer(state, updateCourseInProgress())).toMatchObject({
       loading: true,
       error: '',
     });
   });
 
-  it('should return UPDATE_FAIL state', () => {
-    expect(reducer(state, updateCourseFail('Error message'))).toEqual({
-      ...state,
+  it('should return state for update course failure', () => {
+    expect(reducer(state, updateCourseFail('Error message'))).toMatchObject({
       loading: false,
       error: 'Error message',
     });
   });
 
-  it('should return UPDATE_SUCCESS state', () => {
-    expect(reducer(undefined, updateCourseSuccess())).toEqual({
-      ...state,
+  it('should return state for update course success', () => {
+    expect(reducer(undefined, updateCourseSuccess())).toMatchObject({
       loading: false,
       error: '',
     });

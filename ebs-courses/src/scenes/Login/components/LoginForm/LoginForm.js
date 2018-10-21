@@ -15,7 +15,7 @@ import { withFormValidator } from '../../../../hoc';
 import { withLoginFields } from './withLoginFields';
 import { withLoginEnhancer } from './withLoginEnhancer';
 
-const LoginFormComponent = props => {
+export const LoginFormComponent = props => {
   const {
     auth: { error, loading },
     formFields: { login, password },
@@ -25,7 +25,7 @@ const LoginFormComponent = props => {
   } = props;
 
   return (
-    <Form horizontal onSubmit={handleSubmit}>
+    <Form className="loginForm" horizontal onSubmit={handleSubmit}>
       {error && (
         <Alert bsStyle="warning">
           <strong>{error}</strong>
@@ -77,7 +77,7 @@ const LoginFormComponent = props => {
 
       <FormGroup>
         <Col smOffset={2} sm={10}>
-          <Button type="submit" disabled={loading}>
+          <Button className="loginFormBtn" type="submit" disabled={loading}>
             Sign in
           </Button>
         </Col>
@@ -96,6 +96,18 @@ LoginFormComponent.propTypes = {
     error: PropTypes.string.isRequired,
     user: PropTypes.shape({
       username: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  formFields: PropTypes.shape({
+    login: PropTypes.shape({
+      isValid: PropTypes.bool.isRequired,
+      value: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
+    }),
+    password: PropTypes.shape({
+      isValid: PropTypes.bool.isRequired,
+      value: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
     }),
   }).isRequired,
   onSubmit: PropTypes.func,
