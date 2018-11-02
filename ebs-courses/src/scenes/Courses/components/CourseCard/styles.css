@@ -1,0 +1,13 @@
+.ebs-course-card {
+  margin: 10px 0 0;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+}
+
+.ebs-course-card h3 {
+  margin-top: 0;
+}
+
+.ebs-course-card button {
+  width: 100%;
+}
